@@ -1,3 +1,4 @@
+import getDistanceFromLatLonInKm from 'lib/cordinatesToDistance';
 import * as React from 'react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
@@ -32,9 +33,16 @@ type FormProps = {
   setSource: Dispatch<SetStateAction<Source>>;
   destination: Destination;
   setDestination: Dispatch<SetStateAction<Destination>>;
+  setDistanceInKm: Dispatch<SetStateAction<number>>;
 };
 
-function Form({ source, setSource, destination, setDestination }: FormProps) {
+function Form({
+  source,
+  setSource,
+  destination,
+  setDestination,
+  setDistanceInKm,
+}: FormProps) {
   const { reset, handleSubmit, register } = useForm<FormValues>();
 
   const [error, setError] = useState('');
@@ -54,28 +62,33 @@ function Form({ source, setSource, destination, setDestination }: FormProps) {
       destAlley = destAlley.split(' ').join('+');
     }
 
-    const sourceCoordinates = await geoFetch(
-      sourceCountry,
-      sourceCity,
-      sourceAlley,
-    );
-    const destCoordinates = await geoFetch(destCountry, destCity, destAlley);
+    const sourceRes = await geoFetch(sourceCountry, sourceCity, sourceAlley);
+    const destRes = await geoFetch(destCountry, destCity, destAlley);
 
-    if (!sourceCoordinates.items.length || !destCoordinates.items.length) {
+    const sourceCoordinates: number[] = Object.values(
+      sourceRes.items[0].position,
+    );
+    const destCoordinates: number[] = Object.values(destRes.items[0].position);
+
+    if (!sourceRes.items.length || !destRes.items.length) {
       return setError('We couldnt find that place');
     }
     // Object.values(source.items[0].position);
     setSource((prevSource) => ({
       ...prevSource,
-      coordinates: Object.values(sourceCoordinates.items[0].position),
-      name: sourceCoordinates.items[0].address.label,
+      coordinates: sourceCoordinates,
+      name: sourceRes.items[0].address.label,
     }));
 
     setDestination((prevDest) => ({
       ...prevDest,
-      coordinates: Object.values(destCoordinates.items[0].position),
-      name: destCoordinates.items[0].address.label,
+      coordinates: destCoordinates,
+      name: destRes.items[0].address.label,
     }));
+
+    setDistanceInKm(
+      Math.round(getDistanceFromLatLonInKm(sourceCoordinates, destCoordinates)),
+    );
 
     return reset();
   };

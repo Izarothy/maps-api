@@ -12,9 +12,14 @@ type FormProps = {
 type TrackCostFormProps = {
   destination: Destination;
   source: Source;
+  distanceInKm: number;
 };
 
-function TrackCostForm({ destination, source }: TrackCostFormProps) {
+function TrackCostForm({
+  destination,
+  source,
+  distanceInKm,
+}: TrackCostFormProps) {
   const { reset, handleSubmit, register } = useForm();
   const [price, setPrice] = useState<number>(0);
 
@@ -49,11 +54,12 @@ function TrackCostForm({ destination, source }: TrackCostFormProps) {
         value="Oblicz"
         className=" px-4 py-2 rounded-md bg-blue-500 mt-16 cursor-pointer w-2/3 mx-auto"
       />
-      <div className="flex flex-col text-center mt-8">
+      <div className="flex flex-col text-center mt-8 gap-4">
         <span className="flex justify-between">
           <h3>From {source.name}</h3>
           <h3>To {destination.name}</h3>
         </span>
+        <p>Distance in km: {distanceInKm}</p>
       </div>
     </form>
   );

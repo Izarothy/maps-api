@@ -6,9 +6,10 @@ import TrackCostForm from './TrackCostForm';
 type MapProps = {
   source: Source;
   destination: Destination;
+  distanceInKm: number;
 };
 
-function Map({ source, destination }: MapProps) {
+function Map({ source, destination, distanceInKm }: MapProps) {
   return (
     <div className="h-screen">
       {destination?.coordinates.length > 1 && (
@@ -27,7 +28,11 @@ function Map({ source, destination }: MapProps) {
             <Popup>Destination</Popup>
           </Marker>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          <TrackCostForm source={source} destination={destination} />
+          <TrackCostForm
+            source={source}
+            destination={destination}
+            distanceInKm={distanceInKm}
+          />
         </MapContainer>
       )}
     </div>

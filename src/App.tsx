@@ -8,13 +8,19 @@ import Map from './components/Map';
 function App() {
   const [destination, setDestination] = useState();
   const [source, setSource] = useState();
-
+  const [distanceInKm, setDistanceInKm] = useState();
   return (
     <Router>
       <Routes>
         <Route
           path="/map"
-          element={<Map destination={destination} source={source} />}
+          element={
+            <Map
+              destination={destination}
+              source={source}
+              distanceInKm={distanceInKm}
+            />
+          }
         />
         <Route
           path="/"
@@ -24,6 +30,7 @@ function App() {
               setDestination={setDestination}
               source={source}
               setSource={setSource}
+              setDistanceInKm={setDistanceInKm}
             />
           }
         />
