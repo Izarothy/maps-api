@@ -66,70 +66,78 @@ function Form({
     }
 
     setSourceCoordinates(Object.values(source.items[0].position));
-    setDestCoordinates(Object.values(source.items[0].position));
+    setDestCoordinates(Object.values(dest.items[0].position));
+
     return reset();
   };
 
   return (
-    <form className="flex flex-col" onSubmit={handleSubmit(onSubmit, onError)}>
-      <main className="flex gap-16">
-        <section className="flex flex-col gap-2">
-          <h2 className="font-semibold text-xl text-center">Starting point</h2>
-          <label htmlFor="sourceCountry">Country</label>
-          <input
-            {...register('sourceCountry')}
-            className="border border-black"
-            name="sourceCountry"
-          />
-          <label htmlFor="sourceCity">City</label>
-          <input
-            {...register('sourceCity')}
-            required
-            className="border border-black"
-            name="sourceCity"
-          />
-          <label htmlFor="sourceAlley">Alley</label>
-          <input
-            {...register('sourceAlley')}
-            className="border border-black"
-            name="sourceAlley"
-          />
-        </section>
-        <section className="flex flex-col gap-2">
-          <h2 className="font-semibold text-xl text-center">Destination</h2>
-          <label htmlFor="country">Country</label>
-          <input
-            {...register('destCountry')}
-            className="border border-black"
-            name="destCountry"
-          />
-          <label htmlFor="city">City</label>
-          <input
-            {...register('destCity')}
-            required
-            className="border border-black"
-            name="destCity"
-          />
-          <label htmlFor="alley">Alley</label>
-          <input
-            {...register('destAlley')}
-            className="border border-black"
-            name="destAlley"
-          />
-        </section>
-      </main>
+    <div className="h-screen grid place-items-center">
+      <form
+        className="flex flex-col"
+        onSubmit={handleSubmit(onSubmit, onError)}
+      >
+        <main className="flex gap-16">
+          <section className="flex flex-col gap-2">
+            <h2 className="font-semibold text-xl text-center">
+              Starting point
+            </h2>
+            <label htmlFor="sourceCountry">Country</label>
+            <input
+              {...register('sourceCountry')}
+              className="border border-black"
+              name="sourceCountry"
+            />
+            <label htmlFor="sourceCity">City</label>
+            <input
+              {...register('sourceCity')}
+              required
+              className="border border-black"
+              name="sourceCity"
+            />
+            <label htmlFor="sourceAlley">Alley</label>
+            <input
+              {...register('sourceAlley')}
+              className="border border-black"
+              name="sourceAlley"
+            />
+          </section>
+          <section className="flex flex-col gap-2">
+            <h2 className="font-semibold text-xl text-center">Destination</h2>
+            <label htmlFor="country">Country</label>
+            <input
+              {...register('destCountry')}
+              className="border border-black"
+              name="destCountry"
+            />
+            <label htmlFor="city">City</label>
+            <input
+              {...register('destCity')}
+              required
+              className="border border-black"
+              name="destCity"
+            />
+            <label htmlFor="alley">Alley</label>
+            <input
+              {...register('destAlley')}
+              className="border border-black"
+              name="destAlley"
+            />
+          </section>
+        </main>
 
-      <input
-        className="px-6 py-2 w-32 mx-auto mt-8 rounded-lg bg-blue-600 text-gray-100"
-        type="submit"
-        value="Search"
-      />
-      {destCoordinates.length > 1 && (
-        <Link to="/map">
-          <p className="text-center">Go to map</p>
-        </Link>
-      )}
-    </form>
+        <input
+          className="px-6 py-2 w-32 mx-auto mt-8 rounded-lg bg-blue-600 text-gray-100"
+          type="submit"
+          value="Search"
+        />
+        {destCoordinates.length > 1 && (
+          <Link to="/map">
+            <p className="text-center">Go to map</p>
+          </Link>
+        )}
+      </form>
+    </div>
   );
 }
 
