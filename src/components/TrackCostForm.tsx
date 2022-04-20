@@ -3,17 +3,23 @@ import { useState } from 'react';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import { Destination, Source } from 'types/types';
 
 type FormProps = {
   kmPrice: number;
 };
 
-function TrackCostForm() {
+type TrackCostFormProps = {
+  destination: Destination;
+  source: Source;
+};
+
+function TrackCostForm({ destination, source }: TrackCostFormProps) {
   const { reset, handleSubmit, register } = useForm();
   const [price, setPrice] = useState<number>(0);
 
   const onSubmit: SubmitHandler<FormProps> = (data, e) => {
-    setPrice(data.kmPrice);
+    // data.kmPrice;
     reset();
   };
   const onError = (err, e) => console.log(err);
@@ -44,7 +50,10 @@ function TrackCostForm() {
         className=" px-4 py-2 rounded-md bg-blue-500 mt-16 cursor-pointer w-2/3 mx-auto"
       />
       <div className="flex flex-col text-center mt-8">
-        <h2>calculations here</h2>
+        <span className="flex justify-between">
+          <h3>From {source.name}</h3>
+          <h3>To {destination.name}</h3>
+        </span>
       </div>
     </form>
   );

@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import { Destination, Source } from 'types/types';
 
 const HERE_KEY = process.env.REACT_APP_HERE_KEY;
 
@@ -27,18 +28,13 @@ type FormValues = {
 };
 
 type FormProps = {
-  sourceCoordinates: number[];
-  setSourceCoordinates: Dispatch<SetStateAction<number[]>>;
-  destCoordinates: number[];
-  setDestCoordinates: Dispatch<SetStateAction<number[]>>;
+  source: Source;
+  setSource: Dispatch<SetStateAction<Source>>;
+  destination: Destination;
+  setDestination: Dispatch<SetStateAction<Destination>>;
 };
 
-function Form({
-  sourceCoordinates,
-  setSourceCoordinates,
-  destCoordinates,
-  setDestCoordinates,
-}: FormProps) {
+function Form({ source, setSource, destination, setDestination }: FormProps) {
   const { reset, handleSubmit, register } = useForm<FormValues>();
 
   const [error, setError] = useState('');
@@ -58,15 +54,28 @@ function Form({
       destAlley = destAlley.split(' ').join('+');
     }
 
-    const source = await geoFetch(sourceCountry, sourceCity, sourceAlley);
-    const dest = await geoFetch(destCountry, destCity, destAlley);
+    const sourceCoordinates = await geoFetch(
+      sourceCountry,
+      sourceCity,
+      sourceAlley,
+    );
+    const destCoordinates = await geoFetch(destCountry, destCity, destAlley);
 
-    if (!source.items.length || !dest.items.length) {
+    if (!sourceCoordinates.items.length || !destCoordinates.items.length) {
       return setError('We couldnt find that place');
     }
+    // Object.values(source.items[0].position);
+    setSource((prevSource) => ({
+      ...prevSource,
+      coordinates: Object.values(sourceCoordinates.items[0].position),
+      name: sourceCoordinates.items[0].address.label,
+    }));
 
-    setSourceCoordinates(Object.values(source.items[0].position));
-    setDestCoordinates(Object.values(dest.items[0].position));
+    setDestination((prevDest) => ({
+      ...prevDest,
+      coordinates: Object.values(destCoordinates.items[0].position),
+      name: destCoordinates.items[0].address.label,
+    }));
 
     return reset();
   };
@@ -131,7 +140,7 @@ function Form({
           type="submit"
           value="Search"
         />
-        {destCoordinates.length > 1 && (
+        {destination?.coordinates.length > 1 && (
           <Link to="/map">
             <p className="text-center">Go to map</p>
           </Link>

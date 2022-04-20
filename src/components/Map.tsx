@@ -1,32 +1,33 @@
 import * as React from 'react';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import { Destination, Source } from 'types/types';
 import TrackCostForm from './TrackCostForm';
 
 type MapProps = {
-  sourceCoordinates: number[];
-  destCoordinates: number[];
+  source: Source;
+  destination: Destination;
 };
 
-function Map({ sourceCoordinates, destCoordinates }: MapProps) {
+function Map({ source, destination }: MapProps) {
   return (
     <div className="h-screen">
-      {destCoordinates.length > 1 && (
+      {destination?.coordinates.length > 1 && (
         <MapContainer
           className="h-full w-full"
-          center={destCoordinates}
+          center={destination.coordinates}
           zoom={12}
           scrollWheelZoom
         >
           {/* @ts-ignore */}
-          <Marker position={sourceCoordinates}>
+          <Marker position={source.coordinates}>
             <Popup>Source</Popup>
           </Marker>
           {/* @ts-ignore */}
-          <Marker position={destCoordinates}>
+          <Marker position={destination.coordinates}>
             <Popup>Destination</Popup>
           </Marker>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          <TrackCostForm />
+          <TrackCostForm source={source} destination={destination} />
         </MapContainer>
       )}
     </div>

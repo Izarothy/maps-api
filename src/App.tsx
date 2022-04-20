@@ -6,33 +6,24 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Map from './components/Map';
 
 function App() {
-  const [destCoordinates, setDestCoordinates] = useState<number[]>(
-    [] as number[],
-  );
-  const [sourceCoordinates, setSourceCoordinates] = useState<number[]>(
-    [] as number[],
-  );
+  const [destination, setDestination] = useState();
+  const [source, setSource] = useState();
 
   return (
     <Router>
       <Routes>
         <Route
           path="/map"
-          element={
-            <Map
-              destCoordinates={destCoordinates}
-              sourceCoordinates={sourceCoordinates}
-            />
-          }
+          element={<Map destination={destination} source={source} />}
         />
         <Route
           path="/"
           element={
             <Form
-              destCoordinates={destCoordinates}
-              setDestCoordinates={setDestCoordinates}
-              sourceCoordinates={sourceCoordinates}
-              setSourceCoordinates={setSourceCoordinates}
+              destination={destination}
+              setDestination={setDestination}
+              source={source}
+              setSource={setSource}
             />
           }
         />
