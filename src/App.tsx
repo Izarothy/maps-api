@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useState } from 'react';
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Map from '@components/Map';
+import Map from './components/Map';
 
 function App() {
   const [destCoordinates, setDestCoordinates] = useState<number[] | never[]>(

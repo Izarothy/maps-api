@@ -3,9 +3,6 @@
     "target": "es6",
     "jsx": "preserve",
     "moduleResolution": "node",
-    "baseUrl": "src",
-    "paths": {
-      "@components/*": ["components/*"]
-    }
+    "baseUrl": "src"
   }
 }
