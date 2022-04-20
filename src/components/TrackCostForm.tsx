@@ -22,9 +22,13 @@ function TrackCostForm({
 }: TrackCostFormProps) {
   const { reset, handleSubmit, register } = useForm();
   const [price, setPrice] = useState<number>(0);
+  const [dailyPrice, setDailyPrice] = useState<number>(0);
+  const [sumDays, setSumDays] = useState<number>(0);
 
   const onSubmit: SubmitHandler<FormProps> = (data, e) => {
-    // data.kmPrice;
+    setPrice(Math.round(data.kmPrice * distanceInKm * 1.1));
+    setDailyPrice(Math.round(data.kmPrice * 800 * 1.1));
+    setSumDays(Math.ceil(distanceInKm / 800));
     reset();
   };
   const onError = (err, e) => console.log(err);
@@ -60,6 +64,13 @@ function TrackCostForm({
           <h3>To {destination.name}</h3>
         </span>
         <p>Distance in km: {distanceInKm}</p>
+        {price > 0 && (
+          <section>
+            <p>Total cost: {price}PLN</p>
+            <p>Price per day: {dailyPrice}PLN</p>
+            <p>You will need {sumDays} days in total</p>
+          </section>
+        )}
       </div>
     </form>
   );
