@@ -27,15 +27,19 @@ type FormValues = {
 };
 
 type FormProps = {
+  sourceCoordinates: number[];
+  setSourceCoordinates: Dispatch<SetStateAction<number[]>>;
   destCoordinates: number[];
   setDestCoordinates: Dispatch<SetStateAction<number[]>>;
 };
 
-function Form({ destCoordinates, setDestCoordinates }: FormProps) {
+function Form({
+  sourceCoordinates,
+  setSourceCoordinates,
+  destCoordinates,
+  setDestCoordinates,
+}: FormProps) {
   const { reset, handleSubmit, register } = useForm<FormValues>();
-  const [sourceCoordinates, setSourceCoordinates] = useState<
-    number[] | never[]
-  >([]);
 
   const [error, setError] = useState('');
 

@@ -4,14 +4,20 @@ import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
+type FormProps = {
+  kmPrice: number;
+};
+
 function TrackCostForm() {
   const { reset, handleSubmit, register } = useForm();
   const [price, setPrice] = useState<number>(0);
-  const onSubmit = (data, e) => {
+
+  const onSubmit: SubmitHandler<FormProps> = (data, e) => {
     setPrice(data.kmPrice);
     reset();
   };
   const onError = (err, e) => console.log(err);
+
   return (
     <form
       className="text-gray-100 fixed right-0 top-0 px-4 py-8 w-1/6 bg-slate-800 h-full border flex flex-col"
