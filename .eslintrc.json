@@ -17,6 +17,10 @@
     "react/jsx-filename-extension": [
       2,
       { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
-    ]
+    ],
+    "jsx-a11y/label-has-associated-control": 0,
+    "no-unused-vars": "warn",
+    "react/jsx-props-no-spreading": 0,
+    "object-curly-newline": 0
   }
 }
