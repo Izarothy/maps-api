@@ -1,12 +1,6 @@
 import { LatLngExpression } from 'leaflet';
 import * as React from 'react';
-import {
-  MapContainer,
-  Marker,
-  Polyline,
-  Popup,
-  TileLayer,
-} from 'react-leaflet';
+import { MapContainer, Marker, Polyline, Popup, TileLayer } from 'react-leaflet';
 import { Link } from 'react-router-dom';
 import { Destination, Source } from 'types/types';
 import TrackCostForm from './TrackCostForm';
@@ -21,33 +15,21 @@ function Map({ source, destination, distanceInKm }: MapProps) {
   return (
     <div className="h-screen">
       {destination?.coordinates.length > 1 ? (
-        <MapContainer
-          className="h-full w-full"
-          center={destination.coordinates}
-          zoom={12}
-          scrollWheelZoom
-        >
-          {/* @ts-ignore */}
-          <Marker position={source.coordinates}>
-            <Popup>Source</Popup>
-          </Marker>
-          {/* @ts-ignore */}
-          <Marker position={destination.coordinates}>
-            <Popup>Destination</Popup>
-          </Marker>
-          <Polyline
-            positions={[
-              source.coordinates as LatLngExpression,
-              destination.coordinates as LatLngExpression,
-            ]}
-          />
-          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          <TrackCostForm
-            source={source}
-            destination={destination}
-            distanceInKm={distanceInKm}
-          />
-        </MapContainer>
+        <>
+          <MapContainer className="h-full w-full" center={destination.coordinates} zoom={12} scrollWheelZoom>
+            {/* @ts-ignore */}
+            <Marker position={source.coordinates}>
+              <Popup>Source</Popup>
+            </Marker>
+            {/* @ts-ignore */}
+            <Marker position={destination.coordinates}>
+              <Popup>Destination</Popup>
+            </Marker>
+            <Polyline positions={[source.coordinates as LatLngExpression, destination.coordinates as LatLngExpression]} />
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+          </MapContainer>
+          <TrackCostForm source={source} destination={destination} distanceInKm={distanceInKm} />
+        </>
       ) : (
         <main className="h-full text-center flex flex-col justify-center items-center">
           <h1 className="text-3xl font-semibold">
