@@ -1,5 +1,13 @@
+import { LatLngExpression } from 'leaflet';
 import * as React from 'react';
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import {
+  MapContainer,
+  Marker,
+  Polyline,
+  Popup,
+  TileLayer,
+} from 'react-leaflet';
+import { Link } from 'react-router-dom';
 import { Destination, Source } from 'types/types';
 import TrackCostForm from './TrackCostForm';
 
@@ -12,7 +20,7 @@ type MapProps = {
 function Map({ source, destination, distanceInKm }: MapProps) {
   return (
     <div className="h-screen">
-      {destination?.coordinates.length > 1 && (
+      {destination?.coordinates.length > 1 ? (
         <MapContainer
           className="h-full w-full"
           center={destination.coordinates}
@@ -27,6 +35,12 @@ function Map({ source, destination, distanceInKm }: MapProps) {
           <Marker position={destination.coordinates}>
             <Popup>Destination</Popup>
           </Marker>
+          <Polyline
+            positions={[
+              source.coordinates as LatLngExpression,
+              destination.coordinates as LatLngExpression,
+            ]}
+          />
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           <TrackCostForm
             source={source}
@@ -34,6 +48,15 @@ function Map({ source, destination, distanceInKm }: MapProps) {
             distanceInKm={distanceInKm}
           />
         </MapContainer>
+      ) : (
+        <main className="h-full text-center flex flex-col justify-center items-center">
+          <h1 className="text-3xl font-semibold">
+            Nothing found here.{' '}
+            <span className="text-md text-blue-500">
+              <Link to="/">Go back to main</Link>
+            </span>
+          </h1>
+        </main>
       )}
     </div>
   );

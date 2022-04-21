@@ -55,7 +55,7 @@ function TrackCostForm({
       />
       <input
         type="submit"
-        value="Oblicz"
+        value="Calculate"
         className=" px-4 py-2 rounded-md bg-blue-500 mt-16 cursor-pointer w-2/3 mx-auto"
       />
       <div className="flex flex-col text-center mt-8 gap-4">

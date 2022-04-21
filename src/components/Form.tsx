@@ -1,23 +1,11 @@
 import getDistanceFromLatLonInKm from 'lib/cordinatesToDistance';
+import geoFetch from 'lib/geoFetch';
 import * as React from 'react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Destination, Source } from 'types/types';
-
-const HERE_KEY = process.env.REACT_APP_HERE_KEY;
-
-const geoFetch = async (country: string, city: string, alley: string) => {
-  const res = await fetch(
-    `https://geocode.search.hereapi.com/v1/geocode?q=${country}+${city}+${alley}&apiKey=${HERE_KEY}`,
-  );
-
-  if (!res.ok) return null;
-  const data = await res.json();
-
-  return data;
-};
 
 type FormValues = {
   sourceCountry: string;
@@ -91,12 +79,14 @@ function Form({
       Math.round(getDistanceFromLatLonInKm(sourceCoordinates, destCoordinates)),
     );
 
+    setError('');
     navigate('/map');
     return reset();
   };
 
   return (
-    <div className="h-screen grid place-items-center">
+    <div className="h-screen flex flex-col items-center justify-center">
+      <h2 className="text-red-500 font-semibold text-lg">{error}</h2>
       <form
         className="flex flex-col"
         onSubmit={handleSubmit(onSubmit, onError)}
@@ -151,7 +141,7 @@ function Form({
         </main>
 
         <input
-          className="px-6 py-2 w-32 mx-auto mt-8 rounded-lg bg-blue-600 text-gray-100"
+          className="px-6 py-2 w-32 mx-auto mt-8 rounded-lg bg-blue-600 text-gray-100 cursor-pointer"
           type="submit"
           value="Search"
         />
