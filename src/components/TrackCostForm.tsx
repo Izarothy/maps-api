@@ -33,18 +33,18 @@ function TrackCostForm({ destination, source, distanceInKm }: TrackCostFormProps
 
   return (
     <form
-      className="text-gray-100 fixed right-0 top-0 px-4 py-8 w-1/3 lg:w-1/6 bg-slate-800 h-full flex flex-col z-[999]"
+      className="text-gray-100 fixed right-0 bottom-0 md:top-0 px-4 py-8 w-full md:w-1/4 lg:w-1/6 bg-slate-800 h-1/4 overflow-y-scroll md:h-full flex flex-col z-[999]"
       onSubmit={handleSubmit(onSubmit, onError)}
     >
       <Link to="/">
-        <p className=" mb-12 text-lg font-semibold hover:text-blue-400">Homepage</p>
+        <p className="text-center mb-12 text-lg font-semibold hover:text-blue-400">Homepage</p>
       </Link>
       <label className=" font-semibold" htmlFor="kmPrice ">
         Price per km (in PLN)
       </label>
       <input type="number" step="0.01" className="rounded-sm p-2 text-black" required name="kmPrice" {...register('kmPrice')} />
       <input type="submit" value="Calculate" className=" px-4 py-2 rounded-md bg-blue-500 mt-16 cursor-pointer w-2/3 mx-auto" />
-      <div id="pdf" className="flex flex-col text-center mt-8 gap-4">
+      <div className="flex flex-col text-center mt-8 gap-4">
         <span className="flex flex-col text-left justify-between gap-2">
           <h3 className="font-semibold">From {source.name}</h3>
           <h3 className="font-semibold">To {destination.name}</h3>
