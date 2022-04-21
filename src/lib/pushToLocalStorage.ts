@@ -4,7 +4,7 @@ export const pushToLocalStorage = (sourceName: string, destName: string) => {
   if (savedTracks) {
     localStorage.setItem(
       'paths',
-      JSON.stringify([...savedTracks, [sourceName, destName]]),
+      JSON.stringify([...savedTracks, [sourceName, destName, Math.floor(Math.random() * 1000)]]),
     );
   } else {
     localStorage.setItem('paths', JSON.stringify([[sourceName, destName]]));
