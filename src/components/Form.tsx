@@ -66,6 +66,7 @@ function Form({
     const destRes = await geoFetch(destCountry, destCity, destAlley);
 
     if (!sourceRes.items.length || !destRes.items.length) {
+      reset();
       return setError('We couldnt find that place');
     }
 
