@@ -9,6 +9,9 @@ import { useNavigate } from 'react-router-dom';
 import { Destination, Source } from 'types/types';
 import TrackHistory from './TrackHistory';
 
+// @ts-ignore - this gets imported normally
+import mapImage from '../assets/map.jpg';
+
 type FormValues = {
   sourceCountry: string;
   sourceCity: string;
@@ -26,13 +29,7 @@ type FormProps = {
   setDistanceInKm: Dispatch<SetStateAction<number>>;
 };
 
-function Form({
-  source,
-  setSource,
-  destination,
-  setDestination,
-  setDistanceInKm,
-}: FormProps) {
+function Form({ source, setSource, destination, setDestination, setDistanceInKm }: FormProps) {
   const { reset, handleSubmit, register } = useForm<FormValues>();
   const navigate = useNavigate();
   const [error, setError] = useState('');
@@ -60,9 +57,7 @@ function Form({
       return setError('We couldnt find that place');
     }
 
-    const sourceCoordinates: number[] = Object.values(
-      sourceRes.items[0].position,
-    );
+    const sourceCoordinates: number[] = Object.values(sourceRes.items[0].position);
     const sourceName = sourceRes.items[0].address.label;
     const destCoordinates: number[] = Object.values(destRes.items[0].position);
     const destName = destRes.items[0].address.label;
@@ -79,9 +74,7 @@ function Form({
       name: destName,
     }));
 
-    setDistanceInKm(
-      Math.round(getDistanceFromLatLonInKm(sourceCoordinates, destCoordinates)),
-    );
+    setDistanceInKm(Math.round(getDistanceFromLatLonInKm(sourceCoordinates, destCoordinates)));
 
     pushToLocalStorage(sourceName, destName);
 
@@ -91,66 +84,35 @@ function Form({
   };
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center">
+    <div
+      style={{ backgroundImage: `url(${mapImage})` }}
+      className="h-screen flex flex-col bg-cover bg-center items-center justify-center bg-gray-200"
+    >
+      <h1 className="absolute top-16 font-bold text-2xl text-gray-800">Map Routing</h1>
       <h2 className="text-red-500 font-semibold text-lg">{error}</h2>
-      <form
-        className="flex flex-col"
-        onSubmit={handleSubmit(onSubmit, onError)}
-      >
+      <form className="flex flex-col bg-white/90 p-8 rounded-sm" onSubmit={handleSubmit(onSubmit, onError)}>
         <main className="flex gap-16">
           <section className="flex flex-col gap-2">
-            <h2 className="font-semibold text-xl text-center">
-              Starting point
-            </h2>
+            <h2 className="font-semibold text-xl text-center">Starting point</h2>
             <label htmlFor="sourceCountry">Country</label>
-            <input
-              {...register('sourceCountry')}
-              className="border border-black"
-              name="sourceCountry"
-            />
+            <input {...register('sourceCountry')} className="pathInput" name="sourceCountry" />
             <label htmlFor="sourceCity">City</label>
-            <input
-              {...register('sourceCity')}
-              required
-              className="border border-black"
-              name="sourceCity"
-            />
+            <input {...register('sourceCity')} required className="pathInput" name="sourceCity" />
             <label htmlFor="sourceAlley">Alley</label>
-            <input
-              {...register('sourceAlley')}
-              className="border border-black"
-              name="sourceAlley"
-            />
+            <input {...register('sourceAlley')} className="pathInput" name="sourceAlley" />
           </section>
           <section className="flex flex-col gap-2">
             <h2 className="font-semibold text-xl text-center">Destination</h2>
             <label htmlFor="country">Country</label>
-            <input
-              {...register('destCountry')}
-              className="border border-black"
-              name="destCountry"
-            />
+            <input {...register('destCountry')} className="pathInput" name="destCountry" />
             <label htmlFor="city">City</label>
-            <input
-              {...register('destCity')}
-              required
-              className="border border-black"
-              name="destCity"
-            />
+            <input {...register('destCity')} required className="pathInput" name="destCity" />
             <label htmlFor="alley">Alley</label>
-            <input
-              {...register('destAlley')}
-              className="border border-black"
-              name="destAlley"
-            />
+            <input {...register('destAlley')} className="pathInput" name="destAlley" />
           </section>
         </main>
 
-        <input
-          className="px-6 py-2 w-32 mx-auto mt-8 rounded-lg bg-blue-600 text-gray-100 cursor-pointer"
-          type="submit"
-          value="Search"
-        />
+        <input className="px-6 py-2 w-32 mx-auto mt-8 rounded-lg bg-blue-600 text-gray-100 cursor-pointer" type="submit" value="Search" />
       </form>
       <TrackHistory />
     </div>

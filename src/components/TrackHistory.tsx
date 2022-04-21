@@ -19,8 +19,7 @@ function TrackHistory() {
       <h2 className="text-xl font-semibold">Your track history</h2>
       <section className="flex flex-col gap-2">
         {/* eslint-disable-next-line operator-linebreak */}
-        {tracks.length > 0 &&
-          tracks.map((track) => <Track sourceName={track[0]} destName={track[1]} key={track[2]} />)}
+        {tracks.length > 0 && tracks.map((track) => <Track sourceName={track[0]} destName={track[1]} key={track[2]} />)}
       </section>
       <button
         className="bg-red-500 px-4 py-2 rounded-md mx-auto"
