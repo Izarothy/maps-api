@@ -2,7 +2,7 @@ import getDistanceFromLatLonInKm from 'lib/cordinatesToDistance';
 import geoFetch from 'lib/geoFetch';
 import pushToLocalStorage from 'lib/pushToLocalStorage';
 import * as React from 'react';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -22,21 +22,19 @@ type FormValues = {
 };
 
 type FormProps = {
-  source: Source;
   setSource: Dispatch<SetStateAction<Source>>;
-  destination: Destination;
   setDestination: Dispatch<SetStateAction<Destination>>;
   setDistanceInKm: Dispatch<SetStateAction<number>>;
 };
 
-function Form({ source, setSource, destination, setDestination, setDistanceInKm }: FormProps) {
+function Form({ setSource, setDestination, setDistanceInKm }: FormProps) {
   const { reset, handleSubmit, register } = useForm<FormValues>();
   const navigate = useNavigate();
   const [error, setError] = useState('');
   const [mobileHistoryOpen, setMobileHistoryOpen] = useState(false);
 
-  const onError = (err, e) => reset(e);
-  const onSubmit: SubmitHandler<FormValues> = async (data, e) => {
+  const onError = () => reset();
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const { sourceCountry, sourceCity, destCountry, destCity } = data;
 
     let { sourceAlley, destAlley } = data;

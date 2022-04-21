@@ -12,28 +12,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route
-          path="/map"
-          element={
-            <Map
-              destination={destination}
-              source={source}
-              distanceInKm={distanceInKm}
-            />
-          }
-        />
-        <Route
-          path="/"
-          element={
-            <Form
-              destination={destination}
-              setDestination={setDestination}
-              source={source}
-              setSource={setSource}
-              setDistanceInKm={setDistanceInKm}
-            />
-          }
-        />
+        <Route path="/map" element={<Map destination={destination} source={source} distanceInKm={distanceInKm} />} />
+        <Route path="/" element={<Form setDestination={setDestination} setSource={setSource} setDistanceInKm={setDistanceInKm} />} />
       </Routes>
     </Router>
   );

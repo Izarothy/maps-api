@@ -5,8 +5,6 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { Destination, Source } from 'types/types';
 
-import JsPDF from 'jspdf';
-import { report } from 'process';
 import generatePDF from 'lib/generatePDF';
 
 type FormProps = {
@@ -25,13 +23,13 @@ function TrackCostForm({ destination, source, distanceInKm }: TrackCostFormProps
   const [dailyPrice, setDailyPrice] = useState<number>(0);
   const [sumDays, setSumDays] = useState<number>(0);
 
-  const onSubmit: SubmitHandler<FormProps> = (data, e) => {
+  const onSubmit: SubmitHandler<FormProps> = (data) => {
     setPrice(Math.round(data.kmPrice * distanceInKm * 1.1));
     setDailyPrice(Math.round(data.kmPrice * 800 * 1.1));
     setSumDays(Math.ceil(distanceInKm / 800));
     reset();
   };
-  const onError = (err, e) => console.log(err);
+  const onError = () => reset();
 
   return (
     <form
