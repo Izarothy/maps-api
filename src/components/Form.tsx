@@ -89,7 +89,8 @@ function Form({ setSource, setDestination, setDistanceInKm }: FormProps) {
     >
       <h1 className="absolute top-16 mt-4 font-bold text-2xl text-gray-800">Map Routing</h1>
       <h2 className="text-red-500 font-semibold text-lg">{error}</h2>
-      <form className="flex flex-col bg-white/90 p-8 rounded-sm md:w-1/2 max-w-xl" onSubmit={handleSubmit(onSubmit, onError)}>
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+      <form role="form" className="flex flex-col bg-white/90 p-8 rounded-sm md:w-1/2 max-w-xl" onSubmit={handleSubmit(onSubmit, onError)}>
         <main className="flex flex-col lg:flex-row gap-16 justify-center">
           <section className="flex flex-col gap-2">
             <h2 className="font-semibold text-xl text-center">Starting point</h2>
