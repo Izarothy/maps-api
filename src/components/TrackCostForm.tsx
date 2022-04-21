@@ -48,6 +48,7 @@ function TrackCostForm({
       </label>
       <input
         type="number"
+        step="0.01"
         className="rounded-sm p-2 text-black"
         required
         name="kmPrice"

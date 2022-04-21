@@ -1,5 +1,6 @@
 import getDistanceFromLatLonInKm from 'lib/cordinatesToDistance';
 import geoFetch from 'lib/geoFetch';
+import pushToLocalStorage from 'lib/pushToLocalStorage';
 import * as React from 'react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
@@ -61,23 +62,27 @@ function Form({
     const sourceCoordinates: number[] = Object.values(
       sourceRes.items[0].position,
     );
+    const sourceName = sourceRes.items[0].address.label;
     const destCoordinates: number[] = Object.values(destRes.items[0].position);
+    const destName = destRes.items[0].address.label;
 
     setSource((prevSource) => ({
       ...prevSource,
       coordinates: sourceCoordinates,
-      name: sourceRes.items[0].address.label,
+      name: sourceName,
     }));
 
     setDestination((prevDest) => ({
       ...prevDest,
       coordinates: destCoordinates,
-      name: destRes.items[0].address.label,
+      name: destName,
     }));
 
     setDistanceInKm(
       Math.round(getDistanceFromLatLonInKm(sourceCoordinates, destCoordinates)),
     );
+
+    pushToLocalStorage(sourceName, destName);
 
     setError('');
     navigate('/map');
