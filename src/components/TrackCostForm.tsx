@@ -5,6 +5,10 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { Destination, Source } from 'types/types';
 
+import JsPDF from 'jspdf';
+import { report } from 'process';
+import generatePDF from 'lib/generatePDF';
+
 type FormProps = {
   kmPrice: number;
 };
@@ -15,11 +19,7 @@ type TrackCostFormProps = {
   distanceInKm: number;
 };
 
-function TrackCostForm({
-  destination,
-  source,
-  distanceInKm,
-}: TrackCostFormProps) {
+function TrackCostForm({ destination, source, distanceInKm }: TrackCostFormProps) {
   const { reset, handleSubmit, register } = useForm();
   const [price, setPrice] = useState<number>(0);
   const [dailyPrice, setDailyPrice] = useState<number>(0);
@@ -39,40 +39,36 @@ function TrackCostForm({
       onSubmit={handleSubmit(onSubmit, onError)}
     >
       <Link to="/">
-        <p className=" mb-12 text-lg font-semibold hover:text-blue-400">
-          Homepage
-        </p>
+        <p className=" mb-12 text-lg font-semibold hover:text-blue-400">Homepage</p>
       </Link>
       <label className=" font-semibold" htmlFor="kmPrice ">
         Price per km (in PLN)
       </label>
-      <input
-        type="number"
-        step="0.01"
-        className="rounded-sm p-2 text-black"
-        required
-        name="kmPrice"
-        {...register('kmPrice')}
-      />
-      <input
-        type="submit"
-        value="Calculate"
-        className=" px-4 py-2 rounded-md bg-blue-500 mt-16 cursor-pointer w-2/3 mx-auto"
-      />
-      <div className="flex flex-col text-center mt-8 gap-4">
-        <span className="flex justify-between">
-          <h3>From {source.name}</h3>
-          <h3>To {destination.name}</h3>
+      <input type="number" step="0.01" className="rounded-sm p-2 text-black" required name="kmPrice" {...register('kmPrice')} />
+      <input type="submit" value="Calculate" className=" px-4 py-2 rounded-md bg-blue-500 mt-16 cursor-pointer w-2/3 mx-auto" />
+      <div id="pdf" className="flex flex-col text-center mt-8 gap-4">
+        <span className="flex flex-col text-left justify-between gap-2">
+          <h3 className="font-semibold">From {source.name}</h3>
+          <h3 className="font-semibold">To {destination.name}</h3>
         </span>
-        <p>Distance in km: {distanceInKm}</p>
+        <p className="text-left">Distance in km: {distanceInKm}</p>
         {price > 0 && (
-          <section>
+          <section className="text-left flex flex-col gap-2">
             <p>Total cost: {price}PLN</p>
             <p>Price per day: {dailyPrice}PLN</p>
             <p>You will need {sumDays} days in total</p>
           </section>
         )}
       </div>
+      {price > 0 && (
+        <button
+          type="button"
+          onClick={() => generatePDF(source.name, destination.name, distanceInKm, price, dailyPrice, sumDays)}
+          className="px-4 py-2 rounded-md bg-blue-500 mt-12"
+        >
+          Export as PDF
+        </button>
+      )}
     </form>
   );
 }

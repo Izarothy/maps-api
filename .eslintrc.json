@@ -14,10 +14,7 @@
   },
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
-    "react/jsx-filename-extension": [
-      2,
-      { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
-    ],
+    "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
     "jsx-a11y/label-has-associated-control": 0,
     "no-unused-vars": "warn",
     "react/jsx-props-no-spreading": 0,
@@ -26,6 +23,7 @@
     // vscode ts server works for these
     "import/extensions": 0,
     "import/no-unresolved": 0,
-    "react/jsx-wrap-multilines": 0
+    "react/jsx-wrap-multilines": 0,
+    "max-len": 0
   }
 }
