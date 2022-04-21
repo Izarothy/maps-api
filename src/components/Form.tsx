@@ -85,9 +85,9 @@ function Form({ setSource, setDestination, setDistanceInKm }: FormProps) {
   return (
     <div
       style={{ backgroundImage: `url(${mapImage})` }}
-      className="h-screen flex flex-col bg-cover bg-center items-center justify-center bg-gray-200"
+      className="min-h-screen pb-8 flex flex-col bg-cover bg-center items-center justify-center bg-gray-200"
     >
-      <h1 className="absolute top-16 mt-4 font-bold text-2xl lg:text-3xl text-gray-100">Map Routing</h1>
+      <h1 className="top-16 my-10 font-bold text-2xl lg:text-3xl text-gray-100">Map Routing</h1>
       <h2 className="text-red-500 font-semibold text-lg">{error}</h2>
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <form role="form" className="flex flex-col bg-white/90 p-8 rounded-sm md:w-1/2 max-w-xl" onSubmit={handleSubmit(onSubmit, onError)}>
