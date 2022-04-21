@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Dispatch, SetStateAction } from 'react';
 import Track from './Track';
 
 type TrackT = {
@@ -7,7 +7,12 @@ type TrackT = {
   dest: string;
 };
 
-function TrackHistory() {
+type TrackHistoryProps = {
+  mobileHistoryOpen: boolean;
+  setMobileHistoryOpen: Dispatch<SetStateAction<boolean>>;
+};
+
+function TrackHistory({ mobileHistoryOpen, setMobileHistoryOpen }: TrackHistoryProps) {
   const [tracks, setTracks] = useState<TrackT[]>([]);
   useEffect(() => {
     const storedTracks = JSON.parse(localStorage.getItem('paths') || '[]');
@@ -15,7 +20,14 @@ function TrackHistory() {
   }, []);
 
   return (
-    <div className="h-full lg:w-1/5 fixed right-0 bg-slate-800 text-gray-100 flex flex-col justify-between px-8 items-center py-16">
+    <div
+      className={`${
+        mobileHistoryOpen ? 'fixed' : 'hidden lg:fixed'
+      } h-full lg:w-1/5 lg:right-0 bg-slate-800 text-gray-100 flex flex-col justify-between px-4 lg:px-8 items-center py-16`}
+    >
+      <button className="absolute top-4 right-4 text-white" type="button" onClick={() => setMobileHistoryOpen(false)}>
+        X
+      </button>
       <h2 className="text-xl font-semibold">Your track history</h2>
       <section className="flex flex-col gap-2">
         {/* eslint-disable-next-line operator-linebreak */}

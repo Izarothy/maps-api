@@ -33,6 +33,7 @@ function Form({ source, setSource, destination, setDestination, setDistanceInKm 
   const { reset, handleSubmit, register } = useForm<FormValues>();
   const navigate = useNavigate();
   const [error, setError] = useState('');
+  const [mobileHistoryOpen, setMobileHistoryOpen] = useState(false);
 
   const onError = (err, e) => reset(e);
   const onSubmit: SubmitHandler<FormValues> = async (data, e) => {
@@ -88,10 +89,10 @@ function Form({ source, setSource, destination, setDestination, setDistanceInKm 
       style={{ backgroundImage: `url(${mapImage})` }}
       className="h-screen flex flex-col bg-cover bg-center items-center justify-center bg-gray-200"
     >
-      <h1 className="absolute top-16 font-bold text-2xl text-gray-800">Map Routing</h1>
+      <h1 className="absolute top-16 mt-4 font-bold text-2xl text-gray-800">Map Routing</h1>
       <h2 className="text-red-500 font-semibold text-lg">{error}</h2>
-      <form className="flex flex-col bg-white/90 p-8 rounded-sm" onSubmit={handleSubmit(onSubmit, onError)}>
-        <main className="flex gap-16">
+      <form className="flex flex-col bg-white/90 p-8 rounded-sm md:w-1/2 max-w-xl" onSubmit={handleSubmit(onSubmit, onError)}>
+        <main className="flex flex-col lg:flex-row gap-16 justify-center">
           <section className="flex flex-col gap-2">
             <h2 className="font-semibold text-xl text-center">Starting point</h2>
             <label htmlFor="sourceCountry">Country</label>
@@ -114,7 +115,12 @@ function Form({ source, setSource, destination, setDestination, setDistanceInKm 
 
         <input className="px-6 py-2 w-32 mx-auto mt-8 rounded-lg bg-blue-600 text-gray-100 cursor-pointer" type="submit" value="Search" />
       </form>
-      <TrackHistory />
+      <TrackHistory mobileHistoryOpen={mobileHistoryOpen} setMobileHistoryOpen={setMobileHistoryOpen} />
+      {!mobileHistoryOpen && (
+        <button className="absolute lg:hidden top-4 right-4 text-white font-bold" type="button" onClick={() => setMobileHistoryOpen(true)}>
+          Open history
+        </button>
+      )}
     </div>
   );
 }
