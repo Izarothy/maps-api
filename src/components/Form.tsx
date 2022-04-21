@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Destination, Source } from 'types/types';
 
 const HERE_KEY = process.env.REACT_APP_HERE_KEY;
@@ -44,7 +44,7 @@ function Form({
   setDistanceInKm,
 }: FormProps) {
   const { reset, handleSubmit, register } = useForm<FormValues>();
-
+  const navigate = useNavigate();
   const [error, setError] = useState('');
 
   const onError = (err, e) => reset(e);
@@ -65,15 +65,15 @@ function Form({
     const sourceRes = await geoFetch(sourceCountry, sourceCity, sourceAlley);
     const destRes = await geoFetch(destCountry, destCity, destAlley);
 
+    if (!sourceRes.items.length || !destRes.items.length) {
+      return setError('We couldnt find that place');
+    }
+
     const sourceCoordinates: number[] = Object.values(
       sourceRes.items[0].position,
     );
     const destCoordinates: number[] = Object.values(destRes.items[0].position);
 
-    if (!sourceRes.items.length || !destRes.items.length) {
-      return setError('We couldnt find that place');
-    }
-    // Object.values(source.items[0].position);
     setSource((prevSource) => ({
       ...prevSource,
       coordinates: sourceCoordinates,
@@ -90,6 +90,7 @@ function Form({
       Math.round(getDistanceFromLatLonInKm(sourceCoordinates, destCoordinates)),
     );
 
+    navigate('/map');
     return reset();
   };
 
@@ -153,11 +154,6 @@ function Form({
           type="submit"
           value="Search"
         />
-        {destination?.coordinates.length > 1 && (
-          <Link to="/map">
-            <p className="text-center">Go to map</p>
-          </Link>
-        )}
       </form>
     </div>
   );

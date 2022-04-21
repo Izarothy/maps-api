@@ -35,7 +35,7 @@ function TrackCostForm({
 
   return (
     <form
-      className="text-gray-100 fixed right-0 top-0 px-4 py-8 w-1/6 bg-slate-800 h-full border flex flex-col z-[999]"
+      className="text-gray-100 fixed right-0 top-0 px-4 py-8 w-1/6 bg-slate-800 h-full flex flex-col z-[999]"
       onSubmit={handleSubmit(onSubmit, onError)}
     >
       <Link to="/">
