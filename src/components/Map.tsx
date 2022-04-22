@@ -17,12 +17,10 @@ function Map({ source, destination, distanceInKm }: MapProps) {
       {destination?.coordinates.length > 1 ? (
         <>
           <MapContainer className="h-full w-full" center={destination.coordinates} zoom={12} scrollWheelZoom>
-            {/* @ts-ignore */}
-            <Marker position={source.coordinates}>
+            <Marker position={source.coordinates as LatLngExpression}>
               <Popup>Source</Popup>
             </Marker>
-            {/* @ts-ignore */}
-            <Marker position={destination.coordinates}>
+            <Marker position={destination.coordinates as LatLngExpression}>
               <Popup>Destination</Popup>
             </Marker>
             <Polyline positions={[source.coordinates as LatLngExpression, destination.coordinates as LatLngExpression]} />
